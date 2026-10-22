@@ -59,7 +59,7 @@ Claude Code / Claude Desktop 的 `mcpServers` 配置示例：
       "command": "npx",
       "args": ["xiange-mcp"],
       "env": {
-        "XIANG_MCP_TOOLS": "/Users/you/xiange/tools"
+        "XIANG_MCP_TOOLS": "<绝对路径，指向你的 xiange/tools 目录>"
       }
     }
   }

@@ -1,3 +1,0 @@
-# 预期命中逐词豁免（已人工核过）
-# `/Users/you` 是文档配置示例的通用占位符（man/README 惯例），非本机真实路径
-allow: /Users/you
