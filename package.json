@@ -1,0 +1,66 @@
+{
+  "name": "xiange-mcp",
+  "version": "0.1.0",
+  "description": "弦歌 xiange — 音乐能力 MCP Server：识谱、转谱、乐理校验、记谱规范校验、格式互转、渲染出图",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "xiange-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "demo": "python3 -m http.server 8080 -d demo",
+    "prepublishOnly": "npm run build",
+    "check": "tsc --noEmit"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "music",
+    "musicxml",
+    "midi",
+    "omr",
+    "music-transcription",
+    "music-theory",
+    "notation",
+    "sheet-music",
+    "xiange",
+    "弦歌"
+  ],
+  "author": "ZhongQuinnKing",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZhongQuinnKing/xiange-mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/ZhongQuinnKing/xiange-mcp/issues"
+  },
+  "homepage": "https://github.com/ZhongQuinnKing/xiange-mcp#readme",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.3.0",
+    "zod": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.7.0"
+  }
+}

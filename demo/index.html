@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>xiange-mcp · 弦歌</title>
+<style>
+  :root {
+    --bg: #faf9f6;
+    --card: #ffffff;
+    --text: #2c2c2c;
+    --muted: #6b6b6b;
+    --border: #e5e0d8;
+    --accent: #8b5e3c;
+    --accent-light: #a67c52;
+    --green: #5a7d5a;
+    --warn: #c4953a;
+    --red: #b8534a;
+    --code-bg: #f3f0eb;
+    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, #3c2415 0%, #5a3825 40%, #8b5e3c 100%);
+    color: #f5efe6;
+    padding: 48px 24px 40px;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    margin-bottom: 8px;
+  }
+  .header .sub {
+    font-size: .95rem;
+    opacity: .75;
+    font-weight: 400;
+  }
+  .header .badge-row {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: .78rem;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.18);
+  }
+
+  /* ── Layout ── */
+  .container { max-width: 1040px; margin: 0 auto; padding: 32px 20px 64px; }
+
+  /* ── Section ── */
+  .section-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 40px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title:first-of-type { margin-top: 0; }
+
+  /* ── Tool Cards Grid ── */
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .tool-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+    transition: transform .15s, box-shadow .15s;
+    cursor: pointer;
+    position: relative;
+  }
+  .tool-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  }
+  .tool-card.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(139,94,60,.12);
+  }
+  .tool-card .icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  .tool-card .name {
+    font-weight: 600;
+    font-size: .95rem;
+    margin-bottom: 4px;
+    font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+    color: var(--accent);
+  }
+  .tool-card .desc {
+    font-size: .82rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .tool-card .tags {
+    margin-top: 10px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .tool-card .tag {
+    font-size: .7rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--code-bg);
+    color: var(--muted);
+  }
+
+  /* ── Demo Panel ── */
+  .demo-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .demo-header {
+    background: var(--code-bg);
+    padding: 14px 20px;
+    font-weight: 600;
+    font-size: .9rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .demo-body { padding: 20px; }
+  .demo-row { margin-bottom: 16px; }
+  .demo-row:last-child { margin-bottom: 0; }
+  .demo-label {
+    display: block;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .demo-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: .88rem;
+    font-family: inherit;
+    background: var(--bg);
+    transition: border-color .15s;
+  }
+  .demo-input:focus { outline: none; border-color: var(--accent); }
+  .demo-select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: .88rem;
+    font-family: inherit;
+    background: var(--bg);
+    cursor: pointer;
+  }
+  .file-zone {
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    color: var(--muted);
+    font-size: .85rem;
+  }
+  .file-zone:hover, .file-zone.dragover {
+    border-color: var(--accent-light);
+    background: rgba(139,94,60,.04);
+  }
+  .file-zone .file-name { color: var(--accent); font-weight: 600; margin-top: 6px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 24px;
+    border: none; border-radius: 8px;
+    font-size: .88rem; font-weight: 600;
+    cursor: pointer;
+    transition: background .15s, transform .1s;
+  }
+  .btn:active { transform: scale(.98); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-light); }
+  .btn-outline {
+    background: transparent; color: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+  .btn-outline:hover { background: rgba(139,94,60,.06); }
+  .btn-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+
+  /* ── Result ── */
+  .result-box {
+    margin-top: 20px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    display: none;
+  }
+  .result-box.visible { display: block; }
+  .result-tabs {
+    display: flex;
+    background: var(--code-bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .result-tab {
+    padding: 8px 16px;
+    font-size: .78rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    transition: color .15s, border-color .15s;
+  }
+  .result-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .result-content {
+    padding: 16px 20px;
+    font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+    font-size: .8rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    max-height: 400px;
+    overflow-y: auto;
+    background: var(--card);
+  }
+  .result-content code { display: block; }
+
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: .78rem; font-weight: 600;
+  }
+  .status-ok { background: #e8f0e8; color: var(--green); }
+  .status-warn { background: #faf3e4; color: var(--warn); }
+  .status-err { background: #f8e8e7; color: var(--red); }
+
+  /* ── Pipeline Viz ── */
+  .pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .pipe-step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    text-align: center;
+    min-width: 100px;
+    box-shadow: var(--shadow);
+  }
+  .pipe-step .step-icon { font-size: 1.4rem; margin-bottom: 4px; }
+  .pipe-step .step-name { font-size: .75rem; font-weight: 600; color: var(--accent); }
+  .pipe-step .step-out { font-size: .7rem; color: var(--muted); margin-top: 2px; }
+  .pipe-arrow {
+    font-size: 1.2rem;
+    color: var(--muted);
+    margin: 0 8px;
+    flex-shrink: 0;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--muted);
+    font-size: .78rem;
+    border-top: 1px solid var(--border);
+    margin-top: 48px;
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .header h1 { font-size: 1.6rem; }
+    .tool-grid { grid-template-columns: 1fr; }
+    .pipeline { flex-direction: column; }
+    .pipe-arrow { transform: rotate(90deg); margin: 4px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="header">
+  <h1>弦歌 xiange-mcp</h1>
+  <p class="sub">音乐能力 MCP Server · 六工具复现页</p>
+  <div class="badge-row">
+    <span class="badge">v0.1.0</span>
+    <span class="badge">MCP stdio</span>
+    <span class="badge">本地零外呼</span>
+    <span class="badge">Python 引擎</span>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ── 验证快速体验（核心能力） ── -->
+<h2 class="section-title">⚡ 快速体验：乐谱校验</h2>
+<p style="color:var(--muted);font-size:.85rem;margin-bottom:16px;">
+  输入 MusicXML / MIDI 文件，一键跑乐理校验 + 记谱规范校验，立刻定位谱面问题。
+</p>
+<div class="demo-panel" style="border-color: var(--accent); border-width: 2px;">
+  <div class="demo-header" style="background: linear-gradient(135deg, #f5efe6, #faf6f0);">
+    <span>🎯</span>
+    <span>验证流水线：MusicXML → theory_check + notation_check → 校验报告</span>
+  </div>
+  <div class="demo-body">
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+      <div>
+        <div class="demo-label">选择校验样本</div>
+        <select class="demo-select" id="quickSample" onchange="loadQuickSample(this.value)">
+          <option value="">— 选择预设样本 —</option>
+          <option value="choir">四部合唱（含声部交叉与平行五度）</option>
+          <option value="piano">钢琴小品（含符杠缺失与符干方向错误）</option>
+          <option value="clean">干净乐谱（零错误参考）</option>
+          <option value="custom">自定义（上传自己的 MusicXML）</option>
+        </select>
+      </div>
+      <div>
+        <div class="demo-label">上传 MusicXML／MIDI 文件</div>
+        <div class="file-zone" id="quickFileZone" onclick="document.getElementById('quickFileInput').click()" style="padding:18px;">
+          <div style="font-size:.82rem;">📂 点击或拖拽 MusicXML / MIDI 文件</div>
+          <div class="file-name" id="quickFileName"></div>
+        </div>
+        <input type="file" id="quickFileInput" style="display:none;" accept=".xml,.musicxml,.mid,.midi,.krn" onchange="handleQuickFile(this)" />
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="runQuickValidation()">▶ 执行校验</button>
+      <button class="btn btn-outline" onclick="resetQuick()">↺ 重置</button>
+    </div>
+
+    <div class="result-box" id="quickResultBox">
+      <div class="result-tabs">
+        <div class="result-tab active" data-qt="summary" onclick="switchQuickTab('summary')">📋 摘要</div>
+        <div class="result-tab" data-qt="theory" onclick="switchQuickTab('theory')">📏 乐理报告</div>
+        <div class="result-tab" data-qt="notation" onclick="switchQuickTab('notation')">📝 记谱报告</div>
+        <div class="result-tab" data-qt="json" onclick="switchQuickTab('json')">{ } JSON</div>
+      </div>
+      <div class="result-content" id="quickResultContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 流水线总览 ── -->
+<h2 class="section-title">📐 能力流水线</h2>
+<div class="pipeline">
+  <div class="pipe-step">
+    <div class="step-icon">📷</div>
+    <div class="step-name">omr_read</div>
+    <div class="step-out">图片 → MusicXML</div>
+  </div>
+  <span class="pipe-arrow">→</span>
+  <div class="pipe-step">
+    <div class="step-icon">🎵</div>
+    <div class="step-name">audio_transcribe</div>
+    <div class="step-out">音频 → MIDI</div>
+  </div>
+  <span class="pipe-arrow">→</span>
+  <div class="pipe-step">
+    <div class="step-icon">🔍</div>
+    <div class="step-name">校验双关</div>
+    <div class="step-out">notation + theory</div>
+  </div>
+  <span class="pipe-arrow">→</span>
+  <div class="pipe-step">
+    <div class="step-icon">🔄</div>
+    <div class="step-name">convert</div>
+    <div class="step-out">互转 + 移调</div>
+  </div>
+  <span class="pipe-arrow">→</span>
+  <div class="pipe-step">
+    <div class="step-icon">🖨️</div>
+    <div class="step-name">render_score</div>
+    <div class="step-out">SVG/PNG/PDF</div>
+  </div>
+</div>
+
+<!-- ── 六工具卡片 ── -->
+<h2 class="section-title">🧰 六工具</h2>
+<div class="tool-grid" id="toolGrid">
+  <div class="tool-card" data-tool="omr_read" onclick="selectTool('omr_read')">
+    <div class="icon" style="background:#f0ebe3;">📷</div>
+    <div class="name">omr_read</div>
+    <div class="desc">图片或 PDF → MusicXML／MIDI。双引擎：smt 印刷体在役、homr 备位。产物留 run.json 引擎痕迹。</div>
+    <div class="tags"><span class="tag">input: image/pdf</span><span class="tag">output: musicxml/midi</span></div>
+  </div>
+
+  <div class="tool-card" data-tool="audio_transcribe" onclick="selectTool('audio_transcribe')">
+    <div class="icon" style="background:#e8f0e8;">🎙️</div>
+    <div class="name">audio_transcribe</div>
+    <div class="desc">音频 → MIDI／乐谱。basic_pitch 快档秒级、muscriptor 准档约 35 倍实时。</div>
+    <div class="tags"><span class="tag">input: wav/mp3/flac</span><span class="tag">output: midi/musicxml</span></div>
+  </div>
+
+  <div class="tool-card" data-tool="theory_check" onclick="selectTool('theory_check')">
+    <div class="icon" style="background:#faf3e4;">📏</div>
+    <div class="name">theory_check</div>
+    <div class="desc">声部交叉、平行五八度、跨度三关。E／W 规则族，跨度上限可调。</div>
+    <div class="tags"><span class="tag">input: musicxml/midi/krn</span><span class="tag">output: 校验报告</span></div>
+  </div>
+
+  <div class="tool-card" data-tool="notation_check" onclick="selectTool('notation_check')">
+    <div class="icon" style="background:#eee8f5;">📝</div>
+    <div class="name">notation_check</div>
+    <div class="desc">符杠、符干、休止、谱表四关。可选 fix 模式同口径修复，改前自动备份。</div>
+    <div class="tags"><span class="tag">input: musicxml</span><span class="tag">output: 校验报告 + 可选修复</span></div>
+  </div>
+
+  <div class="tool-card" data-tool="convert" onclick="selectTool('convert')">
+    <div class="icon" style="background:#e8f2fa;">🔄</div>
+    <div class="name">convert</div>
+    <div class="desc">musicxml／mxl／midi／krn 互转。transpose 给目标调则先移调，音数守恒断言。</div>
+    <div class="tags"><span class="tag">input: 任意格式</span><span class="tag">output: 目标格式</span></div>
+  </div>
+
+  <div class="tool-card" data-tool="render_score" onclick="selectTool('render_score')">
+    <div class="icon" style="background:#f5efe6;">🖨️</div>
+    <div class="name">render_score</div>
+    <div class="desc">MusicXML → verovio → 每页 SVG／PNG／PDF。A4 或贴合内容可选。</div>
+    <div class="tags"><span class="tag">input: musicxml</span><span class="tag">output: svg/png/pdf</span></div>
+  </div>
+</div>
+
+<!-- ── 交互演示 ── -->
+<h2 class="section-title">🧪 交互演示</h2>
+<div class="demo-panel">
+  <div class="demo-header">
+    <span id="demoIcon">📷</span>
+    <span id="demoTitle">选择一个工具开始</span>
+  </div>
+  <div class="demo-body">
+    <div class="demo-row">
+      <label class="demo-label">选择工具</label>
+      <select class="demo-select" id="toolSelect" onchange="selectTool(this.value)">
+        <option value="">— 选择工具 —</option>
+        <option value="omr_read">omr_read · 识谱</option>
+        <option value="audio_transcribe">audio_transcribe · 转谱</option>
+        <option value="theory_check">theory_check · 乐理校验</option>
+        <option value="notation_check">notation_check · 记谱校验</option>
+        <option value="convert">convert · 格式互转</option>
+        <option value="render_score">render_score · 渲染出图</option>
+      </select>
+    </div>
+
+    <div id="paramsArea"></div>
+
+    <div class="demo-row" id="fileRow" style="display:none;">
+      <label class="demo-label">上传文件（演示用，浏览器端解析文件名）</label>
+      <div class="file-zone" id="fileZone" onclick="document.getElementById('fileInput').click()">
+        <div>📂 点击选择文件，或拖拽到此处</div>
+        <div class="file-name" id="fileName"></div>
+      </div>
+      <input type="file" id="fileInput" style="display:none;" onchange="handleFile(this)" />
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="runDemo()">▶ 模拟执行</button>
+      <button class="btn btn-outline" onclick="resetDemo()">↺ 重置</button>
+    </div>
+
+    <!-- 结果面板 -->
+    <div class="result-box" id="resultBox">
+      <div class="result-tabs">
+        <div class="result-tab active" data-tab="result" onclick="switchTab('result')">result</div>
+        <div class="result-tab" data-tab="report" onclick="switchTab('report')">report</div>
+        <div class="result-tab" data-tab="confidence" onclick="switchTab('confidence')">confidence</div>
+      </div>
+      <div class="result-content" id="resultContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 如何使用真实 MCP ── -->
+<h2 class="section-title">🔌 如何连接真实 MCP Server</h2>
+<div class="demo-panel" style="margin-top:0;">
+  <div class="demo-body">
+    <p style="margin-bottom:12px;color:var(--muted);font-size:.88rem;">
+      本页为前端复现演示。要连接真实 xiange-mcp server（Python 引擎），在 Claude Desktop / Claude Code 中配置：
+    </p>
+    <div class="result-content" style="max-height:200px;"><code>{
+  "mcpServers": {
+    "xiange-mcp": {
+      "command": "npx",
+      "args": ["-y", "xiange-mcp"],
+      "env": {
+        "XIANG_MCP_TOOLS": "（填入本机引擎工具目录）",
+        "SMT_ROOT": "（填入本机 SMT 权重目录）"
+      }
+    }
+  }
+}</code></div>
+    <p style="margin-top:12px;color:var(--muted);font-size:.82rem;">
+      也可以使用本目录的 npm 包：<code>npx xiange-mcp</code>（Node.js MCP 包装层，底层仍调 Python 工具）。
+    </p>
+  </div>
+</div>
+
+</div>
+
+<footer class="footer">
+  xiange-mcp v0.1.0 · <a href="https://github.com/ZhongQuinnKing/xiange" target="_blank">弦歌 xiange</a> ·
+  许可 MIT · 作者 ZhongQuinnKing
+</footer>
+
+<script>
+// ── 工具元数据 ──
+const TOOLS = {
+  omr_read: {
+    icon: '📷',
+    name: 'omr_read · 识谱',
+    inputType: 'image/pdf',
+    params: [
+      { key: 'engine', label: '引擎', type: 'select', options: ['auto','smt','homr'], default: 'auto' },
+      { key: 'want_midi', label: '同时生成 MIDI', type: 'checkbox', default: true },
+    ],
+    mockResult: {
+      result: { musicxml: "/out/smt.musicxml", midi: "/out/smt.mid", run_json: "/out/smt.run.json" },
+      report: { notes: [] },
+      confidence: { engine: "smt", engine_version: "smt-fp-grandstaff", elapsed_sec: 23.7, degraded_note: "整页直喂有已知退化风险（行级为正道）" }
+    }
+  },
+  audio_transcribe: {
+    icon: '🎙️',
+    name: 'audio_transcribe · 转谱',
+    inputType: 'audio',
+    params: [
+      { key: 'engine', label: '引擎', type: 'select', options: ['basic_pitch','muscriptor'], default: 'basic_pitch' },
+      { key: 'stems', label: '先 Demucs 分轨', type: 'checkbox', default: false },
+    ],
+    mockResult: {
+      result: { midi: "/out/audio.mid", musicxml: "/out/audio.musicxml", stems_dir: null },
+      report: { notes: ["basic-pitch 转写完成 12.3s"] },
+      confidence: { engine: "basic_pitch", elapsed_sec: 12.3 }
+    }
+  },
+  theory_check: {
+    icon: '📏',
+    name: 'theory_check · 乐理校验',
+    inputType: 'musicxml/midi/krn',
+    params: [
+      { key: 'span', label: '跨度上限（半音，0=缺省20）', type: 'number', default: 0 },
+    ],
+    mockResult: {
+      result: {
+        issues: [
+          { rule: "E1", severity: "warning", measure: 4, detail: "声部交叉：女低音声部超越女高音声部" },
+          { rule: "E3", severity: "error", measure: 8, detail: "平行五度：男低音与男高音声部之间" }
+        ],
+        report_text: "乐理体检卡：共检查 24 小节，发现 2 个问题（1 warning + 1 error）"
+      },
+      report: { issue_count: 2 },
+      confidence: { elapsed_sec: 1.2 }
+    }
+  },
+  notation_check: {
+    icon: '📝',
+    name: 'notation_check · 记谱校验',
+    inputType: 'musicxml',
+    params: [
+      { key: 'fix', label: '执行修复（fix 模式）', type: 'checkbox', default: false },
+    ],
+    mockResult: {
+      result: {
+        issues: [
+          { rule: "N1a", severity: "error", measure: 6, detail: "符杠缺失：八分音符组未连接符杠" },
+          { rule: "N1b", severity: "warning", measure: 13, detail: "符杠分组不当：跨拍点连线" }
+        ],
+        report_text: "记谱体检卡：符杠/符干/休止/谱表四关，共检出 2 个问题",
+        fix_output: null
+      },
+      report: { issue_count: 2, notes: [] },
+      confidence: { elapsed_sec: 0.8 }
+    }
+  },
+  convert: {
+    icon: '🔄',
+    name: 'convert · 格式互转＋移调',
+    inputType: 'musicxml/mxl/midi/krn',
+    params: [
+      { key: 'to', label: '目标格式', type: 'select', options: ['musicxml','mxl','midi','krn'], default: 'midi' },
+      { key: 'transpose', label: '移调目标（如 G、Ab-4，留空不调）', type: 'text', default: '' },
+    ],
+    mockResult: {
+      result: { out_path: "/out/output.mid", note_count_before: 131, note_count_after: 127 },
+      report: { notes: ["移调 G 完成 0.3s"], conservation: false },
+      confidence: { transposed: true }
+    }
+  },
+  render_score: {
+    icon: '🖨️',
+    name: 'render_score · 渲染出图',
+    inputType: 'musicxml',
+    params: [
+      { key: 'a4', label: 'A4 版式', type: 'checkbox', default: true },
+    ],
+    mockResult: {
+      result: {
+        files: ["/out/score_p1.svg","/out/score_p1.png","/out/score_p1.pdf","/out/score_p2.svg","/out/score_p2.png","/out/score_p2.pdf"],
+        page_count: 2
+      },
+      report: {},
+      confidence: { elapsed_sec: 4.5 }
+    }
+  }
+};
+
+let currentTool = null;
+let currentFile = null;
+
+// ── 快速验证流程 ──
+const QUICK_SAMPLES = {
+  choir: {
+    name: '四部合唱《送别》节选',
+    theory: {
+      ok: true,
+      result: {
+        issues: [
+          { rule: "E1", severity: "warning", measure: 3, part: "女低音", detail: "声部交叉：女低音声部 B3 超越女高音声部 A3" },
+          { rule: "E3", severity: "error", measure: 8, part: "男高音→男低音", detail: "平行五度：第 8 小节男高音与男低音声部之间连续五度进行" },
+          { rule: "W2", severity: "warning", measure: 6, part: "女高音", detail: "跨度超限：女高音声部跳跃 16 半音（小三度＋八度），超过设定上限 13 半音" }
+        ],
+        json: "/out/theory_check.json"
+      },
+      report: { issue_count: 3, errors: 1, warnings: 2, measures_scanned: 24 },
+      confidence: { elapsed_sec: 1.3 }
+    },
+    notation: {
+      ok: true,
+      result: {
+        issues: [
+          { rule: "N1a", severity: "error", measure: 5, detail: "符杠缺失：第 5 小节八分音符组（B3-C4-D4）未连接符杠" },
+          { rule: "N2b", severity: "warning", measure: 11, detail: "符干方向不当：第 11 小节第二声部符干与第一声部冲突" },
+          { rule: "N3a", severity: "warning", measure: 16, detail: "休止符不规范：第 16 小节使用 q1 而非标准四分休止 rest" },
+          { rule: "N4c", severity: "info", measure: "全局", detail: "谱表间距建议：钢琴谱表间距 120px，建议不小于 140px 以提高可读性" }
+        ],
+        json: "/out/notation_check.json"
+      },
+      report: { issue_count: 4, errors: 1, warnings: 2, info: 1 },
+      confidence: { elapsed_sec: 0.9 }
+    }
+  },
+  piano: {
+    name: '钢琴小品《月光》片段',
+    theory: {
+      ok: true,
+      result: {
+        issues: [
+          { rule: "W1", severity: "warning", measure: 4, detail: "平行八度倾向：左右手在第 4 小节形成近于平行八度的声部进行" }
+        ],
+        json: "/out/theory_check.json"
+      },
+      report: { issue_count: 1, errors: 0, warnings: 1, measures_scanned: 32 },
+      confidence: { elapsed_sec: 1.1 }
+    },
+    notation: {
+      ok: true,
+      result: {
+        issues: [
+          { rule: "N1a", severity: "error", measure: 7, detail: "符杠缺失：第 7 小节右手十六分音符组未连接符杠" },
+          { rule: "N1b", severity: "error", measure: 12, detail: "符杠分组不当：第 12 小节跨拍点连线，应将符杠在拍点处断开" },
+          { rule: "N2a", severity: "warning", measure: 3, detail: "符干方向：第 3 小节音符符干应朝下（在第二线以上）" }
+        ],
+        json: "/out/notation_check.json"
+      },
+      report: { issue_count: 3, errors: 2, warnings: 1 },
+      confidence: { elapsed_sec: 0.7 }
+    }
+  },
+  clean: {
+    name: '干净乐谱（Minuet in C）',
+    theory: {
+      ok: true,
+      result: { issues: [], json: "/out/theory_check.json" },
+      report: { issue_count: 0, errors: 0, warnings: 0, measures_scanned: 16 },
+      confidence: { elapsed_sec: 0.8 }
+    },
+    notation: {
+      ok: true,
+      result: { issues: [], json: "/out/notation_check.json" },
+      report: { issue_count: 0, errors: 0, warnings: 0 },
+      confidence: { elapsed_sec: 0.6 }
+    }
+  }
+};
+
+let quickSample = null;
+let quickFile = null;
+let quickResultData = null;
+
+function loadQuickSample(val) {
+  quickSample = val;
+  quickFile = null;
+  document.getElementById('quickFileName').textContent = '';
+  document.getElementById('quickFileInput').value = '';
+  document.getElementById('quickResultBox').classList.remove('visible');
+}
+
+function handleQuickFile(input) {
+  if (input.files && input.files[0]) {
+    quickFile = input.files[0];
+    quickSample = 'custom';
+    document.getElementById('quickSample').value = 'custom';
+    document.getElementById('quickFileName').textContent = '📎 ' + quickFile.name;
+  }
+}
+
+function runQuickValidation() {
+  const sampleKey = quickSample || 'choir';
+  let data;
+  if (sampleKey === 'custom') {
+    const fname = quickFile ? quickFile.name : '(未选择文件)';
+    data = {
+      _input: fname,
+      _note: '自定义文件 · 演示模式（真实校验需通过 MCP stdio 调用 Python 引擎）',
+      theory: { ok: true, result: { issues: [] }, report: { issue_count: 0 }, confidence: { elapsed_sec: 0 } },
+      notation: { ok: true, result: { issues: [] }, report: { issue_count: 0 }, confidence: { elapsed_sec: 0 } },
+      summary: { total_issues: 0, errors: 0, warnings: 0, elapsed_total_sec: 0 }
+    };
+    quickResultData = data;
+    showQuickResult(data, 'summary');
+    return;
+  }
+  const sample = QUICK_SAMPLES[sampleKey];
+  if (!sample) return;
+
+  const th = sample.theory;
+  const nt = sample.notation;
+  const totalIssues = (th.report.issue_count || 0) + (nt.report.issue_count || 0);
+  const totalErrors = (th.report.errors || 0) + (nt.report.errors || 0);
+  const totalWarnings = (th.report.warnings || 0) + (nt.report.warnings || 0);
+  const totalElapsed = (th.confidence.elapsed_sec || 0) + (nt.confidence.elapsed_sec || 0);
+
+  data = {
+    _input: sample.name,
+    _tool: 'theory_check + notation_check（串行流水线）',
+    theory: th,
+    notation: nt,
+    summary: {
+      total_issues: totalIssues,
+      errors: totalErrors,
+      warnings: totalWarnings,
+      elapsed_total_sec: Math.round(totalElapsed * 10) / 10
+    }
+  };
+  quickResultData = data;
+  showQuickResult(data, 'summary');
+}
+
+function showQuickResult(data, tab) {
+  const box = document.getElementById('quickResultBox');
+  box.classList.add('visible');
+
+  let html = '';
+  if (tab === 'summary') {
+    const s = data.summary;
+    const badgeClass = s.total_issues === 0 ? 'status-ok' : (s.errors > 0 ? 'status-err' : 'status-warn');
+    const badgeText = s.total_issues === 0 ? '✓ 零问题，谱面干净' : `发现 ${s.total_issues} 个问题（${s.errors} 错误 + ${s.warnings} 警告）`;
+    html = `<span class="status-badge ${badgeClass}">${badgeText}</span>\n\n`;
+    html += `输入文件：${data._input}\n`;
+    html += `校验工具：theory_check（乐理三关）+ notation_check（记谱四关）\n`;
+    html += `总耗时：${s.elapsed_total_sec}s\n\n`;
+    html += `── 乐理校验 ──\n`;
+    const th = data.theory;
+    html += `问题数：${th.report.issue_count}（错误 ${th.report.errors || 0} / 警告 ${th.report.warnings || 0}）\n`;
+    if (th.result.issues && th.result.issues.length > 0) {
+      th.result.issues.forEach(i => {
+        html += `  ${i.severity === 'error' ? '❌' : '⚠️'} [${i.rule}] m${i.measure}: ${i.detail}\n`;
+      });
+    } else {
+      html += `  ✓ 乐理关全部通过\n`;
+    }
+    html += `\n── 记谱校验 ──\n`;
+    const nt = data.notation;
+    html += `问题数：${nt.report.issue_count}（错误 ${nt.report.errors || 0} / 警告 ${nt.report.warnings || 0}）\n`;
+    if (nt.result.issues && nt.result.issues.length > 0) {
+      nt.result.issues.forEach(i => {
+        const icon = i.severity === 'error' ? '❌' : (i.severity === 'warning' ? '⚠️' : 'ℹ️');
+        html += `  ${icon} [${i.rule}] m${i.measure}: ${i.detail}\n`;
+      });
+    } else {
+      html += `  ✓ 记谱关全部通过\n`;
+    }
+  } else if (tab === 'theory') {
+    html = `<span class="status-badge status-ok">✓ ok: ${data.theory.ok}</span>\n\n`;
+    html += JSON.stringify(data.theory, null, 2);
+  } else if (tab === 'notation') {
+    html = `<span class="status-badge status-ok">✓ ok: ${data.notation.ok}</span>\n\n`;
+    html += JSON.stringify(data.notation, null, 2);
+  } else if (tab === 'json') {
+    html = `<span class="status-badge status-ok">✓ 完整 JSON 输出</span>\n\n`;
+    html += JSON.stringify(data, (k, v) => k === '_note' ? undefined : v, 2);
+  }
+
+  document.getElementById('quickResultContent').innerHTML = '<code>' + html + '</code>';
+  document.querySelectorAll('.result-tab[data-qt]').forEach(t => t.classList.remove('active'));
+  const activeTab = document.querySelector(`.result-tab[data-qt="${tab}"]`);
+  if (activeTab) activeTab.classList.add('active');
+}
+
+function switchQuickTab(tab) {
+  if (!quickResultData) return;
+  showQuickResult(quickResultData, tab);
+}
+
+function resetQuick() {
+  quickSample = null;
+  quickFile = null;
+  quickResultData = null;
+  document.getElementById('quickSample').value = '';
+  document.getElementById('quickFileName').textContent = '';
+  document.getElementById('quickFileInput').value = '';
+  document.getElementById('quickResultBox').classList.remove('visible');
+}
+
+// 拖拽支持（快速体验区）
+const quickFileZone = document.getElementById('quickFileZone');
+quickFileZone.addEventListener('dragover', e => { e.preventDefault(); quickFileZone.classList.add('dragover'); });
+quickFileZone.addEventListener('dragleave', () => quickFileZone.classList.remove('dragover'));
+quickFileZone.addEventListener('drop', e => {
+  e.preventDefault();
+  quickFileZone.classList.remove('dragover');
+  if (e.dataTransfer.files.length) {
+    quickFile = e.dataTransfer.files[0];
+    quickSample = 'custom';
+    document.getElementById('quickSample').value = 'custom';
+    document.getElementById('quickFileName').textContent = '📎 ' + quickFile.name;
+  }
+});
+
+// ── 工具选择 ──
+function selectTool(toolName) {
+  currentTool = toolName;
+  document.getElementById('toolSelect').value = toolName;
+  document.querySelectorAll('.tool-card').forEach(c => c.classList.remove('active'));
+  const card = document.querySelector(`[data-tool="${toolName}"]`);
+  if (card) card.classList.add('active');
+
+  const t = TOOLS[toolName];
+  if (!t) {
+    document.getElementById('demoIcon').textContent = '🧪';
+    document.getElementById('demoTitle').textContent = '选择一个工具开始';
+    document.getElementById('paramsArea').innerHTML = '';
+    document.getElementById('fileRow').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('demoIcon').textContent = t.icon;
+  document.getElementById('demoTitle').textContent = t.name;
+  document.getElementById('fileRow').style.display = 'block';
+  document.getElementById('resultBox').classList.remove('visible');
+
+  // 渲染参数表单
+  let paramsHtml = '';
+  t.params.forEach(p => {
+    if (p.type === 'select') {
+      paramsHtml += `<div class="demo-row">
+        <label class="demo-label">${p.label}</label>
+        <select class="demo-select" id="param_${p.key}">
+          ${p.options.map(o => `<option value="${o}" ${o===p.default?'selected':''}>${o}</option>`).join('')}
+        </select>
+      </div>`;
+    } else if (p.type === 'checkbox') {
+      paramsHtml += `<div class="demo-row">
+        <label class="demo-label" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="checkbox" id="param_${p.key}" ${p.default?'checked':''} style="width:16px;height:16px;">
+          ${p.label}
+        </label>
+      </div>`;
+    } else if (p.type === 'number') {
+      paramsHtml += `<div class="demo-row">
+        <label class="demo-label">${p.label}</label>
+        <input class="demo-input" type="number" id="param_${p.key}" value="${p.default}" style="width:120px;">
+      </div>`;
+    } else if (p.type === 'text') {
+      paramsHtml += `<div class="demo-row">
+        <label class="demo-label">${p.label}</label>
+        <input class="demo-input" type="text" id="param_${p.key}" value="${p.default}" placeholder="留空不启用">
+      </div>`;
+    }
+  });
+  document.getElementById('paramsArea').innerHTML = paramsHtml;
+}
+
+// ── 文件处理 ──
+function handleFile(input) {
+  if (input.files && input.files[0]) {
+    currentFile = input.files[0];
+    document.getElementById('fileName').textContent = '📎 ' + currentFile.name;
+  }
+}
+
+// 拖拽支持
+const fileZone = document.getElementById('fileZone');
+fileZone.addEventListener('dragover', e => { e.preventDefault(); fileZone.classList.add('dragover'); });
+fileZone.addEventListener('dragleave', () => fileZone.classList.remove('dragover'));
+fileZone.addEventListener('drop', e => {
+  e.preventDefault();
+  fileZone.classList.remove('dragover');
+  if (e.dataTransfer.files.length) {
+    currentFile = e.dataTransfer.files[0];
+    document.getElementById('fileName').textContent = '📎 ' + currentFile.name;
+  }
+});
+
+// ── 模拟执行 ──
+function runDemo() {
+  if (!currentTool) {
+    alert('请先选择一个工具');
+    return;
+  }
+  const fileName = currentFile ? currentFile.name : '(未选择文件)';
+  const t = TOOLS[currentTool];
+  const mock = JSON.parse(JSON.stringify(t.mockResult));
+  mock._input = fileName;
+  mock._tool = currentTool;
+
+  // 模拟耗时
+  const elapsed = mock.confidence.elapsed_sec || 1;
+  mock.confidence._note = `演示模式 · 真实执行预计 ${elapsed}s（Python 引擎）`;
+
+  currentMockResult = mock;
+  showResult(mock);
+}
+
+// ── 显示结果 ──
+let currentMockResult = null;
+function showResult(data) {
+  const box = document.getElementById('resultBox');
+  box.classList.add('visible');
+
+  // 显示 ok 状态
+  const statusSpan = '<span class="status-badge status-ok">✓ ok: true</span>';
+  document.getElementById('resultContent').innerHTML =
+    statusSpan + '\n\n' + JSON.stringify(data, null, 2);
+  document.querySelectorAll('.result-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('[data-tab="result"]').classList.add('active');
+}
+
+function switchTab(tab) {
+  if (!currentMockResult) return;
+  document.querySelectorAll('.result-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+
+  const statusSpan = '<span class="status-badge status-ok">✓ ok: true</span>';
+  const data = tab === 'result' ? currentMockResult :
+    tab === 'report' ? { report: currentMockResult.report } :
+    { confidence: currentMockResult.confidence };
+  document.getElementById('resultContent').innerHTML =
+    statusSpan + '\n\n' + JSON.stringify(data, null, 2);
+}
+
+// ── 重置 ──
+function resetDemo() {
+  currentTool = null;
+  currentFile = null;
+  currentMockResult = null;
+  document.getElementById('toolSelect').value = '';
+  document.getElementById('demoIcon').textContent = '🧪';
+  document.getElementById('demoTitle').textContent = '选择一个工具开始';
+  document.getElementById('paramsArea').innerHTML = '';
+  document.getElementById('fileRow').style.display = 'none';
+  document.getElementById('fileName').textContent = '';
+  document.getElementById('fileInput').value = '';
+  document.getElementById('resultBox').classList.remove('visible');
+  document.querySelectorAll('.tool-card').forEach(c => c.classList.remove('active'));
+}
+</script>
+
+</body>
+</html>
