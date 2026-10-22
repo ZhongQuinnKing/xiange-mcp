@@ -1,0 +1,96 @@
+{
+  "$schema": "https://lobehub.com/schema/plugin/plugin.schema.json",
+  "identifier": "zhongquinnking-xiange-mcp",
+  "name": "xiange-mcp",
+  "version": "0.1.0",
+  "description": "Music notation and arranging toolkit for AI agents: transcribe audio, convert scores to MusicXML, check notation and music theory, read sheet music images, and render scores.",
+  "category": "tools",
+  "tags": ["music", "notation", "musicxml", "audio", "omr", "education"],
+  "homepage": "https://github.com/ZhongQuinnKing/xiange-mcp",
+  "author": "ZhongQuinnKing",
+  "authorUrl": "https://github.com/ZhongQuinnKing",
+  "repository": "https://github.com/ZhongQuinnKing/xiange-mcp",
+  "icon": "🎼",
+  "tools": [
+    {
+      "name": "omr_read",
+      "description": "Read sheet music from an image or PDF and output MusicXML plus MIDI.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": { "type": "string", "description": "Path to image or PDF file." },
+          "engine": { "type": "string", "default": "auto", "description": "Engine: smt, homr, or auto." },
+          "want_midi": { "type": "boolean", "default": true }
+        },
+        "required": ["input"]
+      }
+    },
+    {
+      "name": "audio_transcribe",
+      "description": "Transcribe audio to MIDI or sheet music.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": { "type": "string", "description": "Path to audio file (wav/mp3/flac)." },
+          "engine": { "type": "string", "default": "basic_pitch" },
+          "stems": { "type": "boolean", "default": false }
+        },
+        "required": ["input"]
+      }
+    },
+    {
+      "name": "theory_check",
+      "description": "Music theory validation: voice crossing, parallel fifths/octaves, span.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": { "type": "string", "description": "MusicXML/MIDI/krn input." },
+          "span": { "type": "integer", "default": 0 },
+          "json_out": { "type": "string" }
+        },
+        "required": ["input"]
+      }
+    },
+    {
+      "name": "notation_check",
+      "description": "Notation practice validation and optional auto-fix: beams, stems, rests, staves.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": { "type": "string", "description": "MusicXML input." },
+          "fix": { "type": "boolean", "default": false },
+          "json_out": { "type": "string" }
+        },
+        "required": ["input"]
+      }
+    },
+    {
+      "name": "convert",
+      "description": "Convert between MusicXML/MXL/MIDI/krn and optionally transpose.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": { "type": "string" },
+          "to": { "type": "string", "description": "Target format." },
+          "transpose": { "type": "string" },
+          "out_dir": { "type": "string" }
+        },
+        "required": ["input", "to"]
+      }
+    },
+    {
+      "name": "render_score",
+      "description": "Render MusicXML to SVG/PNG/PDF pages.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": { "type": "string", "description": "MusicXML input." },
+          "formats": { "type": "array", "items": { "type": "string" } },
+          "a4": { "type": "boolean", "default": true },
+          "out_dir": { "type": "string" }
+        },
+        "required": ["input"]
+      }
+    }
+  ]
+}
