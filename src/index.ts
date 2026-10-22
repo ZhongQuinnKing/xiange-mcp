@@ -12,7 +12,6 @@
 import { spawn } from "node:child_process";
 import { existsSync, mkdirSync } from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import os from "node:os";
 
 import { McpServer } from "@modelcontextprotocol/server";
@@ -24,17 +23,10 @@ import * as z from "zod/v4";
 const HOME = os.homedir();
 const TOOLS =
   process.env.XIANG_MCP_TOOLS ||
-  path.join(HOME, ".claude/skills/music-pack/tools");
-const INTERNAL =
-  process.env.XIANG_MCP_INTERNAL ||
-  path.join(HOME, "Desktop/AI/音乐/音乐技能包-内部");
-const SMT_ROOT =
-  process.env.SMT_ROOT ||
-  path.join(HOME, "Desktop/AI/工具/AI工具/SMT");
-const ENV_MT = path.join(HOME, "miniconda/envs/music-transcribe/bin");
+  path.join(HOME, "xiange/tools");
+const INTERNAL = process.env.XIANG_MCP_INTERNAL || "";
+const SMT_ROOT = process.env.SMT_ROOT || "";
 const PY = process.env.XIANG_MCP_PYTHON || "python3";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // ── 工具函数 ────────────────────────────────────────────────
 
@@ -141,7 +133,7 @@ server.registerTool(
     const out = ensureOutDir(input, out_dir || undefined);
     const r = await run(
       [PY, path.join(TOOLS, "engine_runner.py"), input, "--engine", eng, "--out", out],
-      { timeout: 1_200_000, env: { SMT_ROOT, SMT_PY: process.env.SMT_PY || path.join(ENV_MT, "python") } },
+      { timeout: 1_200_000, env: { SMT_ROOT, SMT_PY: process.env.SMT_PY || "python3" } },
     );
     if (!r.ok) {
       return three(false, {}, {}, { engine: eng }, r.error || `引擎退出码 ${r.code}`);
@@ -181,7 +173,11 @@ server.registerTool(
     if (!existsSync(input)) {
       return three(false, {}, {}, {}, "输入不存在: " + input);
     }
-    const chainScript = path.join(__dirname, "..", "..", "..", "音乐技能包-内部", "E1_mcp", "transcribe_chain.py");
+    const chainScript = process.env.XIANG_MCP_AUDIO_CHAIN ||
+      (INTERNAL ? path.join(INTERNAL, "E1_mcp", "transcribe_chain.py") : "");
+    if (!chainScript) {
+      return three(false, {}, {}, {}, "audio_transcribe 编排脚本未配置（需 XIANG_MCP_AUDIO_CHAIN 环境变量）");
+    }
     const cmd = [PY, chainScript, input, "--engine", engine, "--want-xml"];
     if (stems) cmd.push("--stems");
     if (out_dir) cmd.push("--out", out_dir);

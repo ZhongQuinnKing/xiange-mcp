@@ -36,17 +36,16 @@ npm install xiange-mcp
 
 xiange-mcp 包装 Python 端既有工具，需要以下环境：
 
-- Python 3.11+（miniconda env `music-transcribe`）
-- xiange 工具集（默认路径 `~/.claude/skills/music-pack/tools/`）
+- Python 3.11+（建议独立环境，如 `python3 -m venv xiange-env`）
+- xiange 工具集（默认路径 `~/xiange/tools/`，clone 弦歌主仓后指向其 tools 目录；可用 `XIANG_MCP_TOOLS` 覆盖）
 - 可选：SMT 引擎（OMR）、Demucs + Basic Pitch / muscriptor（音频转谱）
 
 环境变量可覆盖默认路径：
 
 | 变量 | 默认值 | 说明 |
 |---|---|---|
-| `XIANG_MCP_TOOLS` | `~/.claude/skills/music-pack/tools/` | Python 工具目录 |
-| `XIANG_MCP_INTERNAL` | `~/Desktop/AI/音乐/音乐技能包-内部/` | 内部工具目录 |
-| `SMT_ROOT` | `~/Desktop/AI/工具/AI工具/SMT/` | SMT 引擎仓 |
+| `XIANG_MCP_TOOLS` | `~/xiange/tools/` | Python 工具目录 |
+| `SMT_ROOT` | 未设置 | SMT 引擎仓（可选，未设置时该引擎不可用） |
 | `XIANG_MCP_PYTHON` | `python3` | Python 解释器 |
 
 ## 配置
@@ -60,8 +59,8 @@ Claude Code / Claude Desktop 的 `mcpServers` 配置示例：
       "command": "npx",
       "args": ["xiange-mcp"],
       "env": {
-        "XIANG_MCP_TOOLS": "/Users/you/.claude/skills/music-pack/tools",
-        "XIANG_MCP_PYTHON": "/Users/you/miniconda/envs/music-transcribe/bin/python"
+        "XIANG_MCP_TOOLS": "/Users/you/xiange/tools",
+        "XIANG_MCP_PYTHON": "/Users/you/miniconda3/envs/xiange-env/bin/python"
       }
     }
   }
