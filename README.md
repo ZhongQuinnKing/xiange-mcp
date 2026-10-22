@@ -59,13 +59,14 @@ Claude Code / Claude Desktop 的 `mcpServers` 配置示例：
       "command": "npx",
       "args": ["xiange-mcp"],
       "env": {
-        "XIANG_MCP_TOOLS": "/Users/you/xiange/tools",
-        "XIANG_MCP_PYTHON": "/Users/you/miniconda3/envs/xiange-env/bin/python"
+        "XIANG_MCP_TOOLS": "/Users/you/xiange/tools"
       }
     }
   }
 }
 ```
+
+`XIANG_MCP_PYTHON` 缺省用 PATH 里的 `python3`，环境特殊时按需覆盖。
 
 ## 开发
 
