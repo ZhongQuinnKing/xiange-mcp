@@ -1,6 +1,6 @@
 # xiange-mcp
 
-弦歌 xiange — 音乐能力 MCP Server
+Xiange — 音乐能力 MCP Server
 
 给 AI 用的音乐能力包，通过 MCP 协议暴露六项核心工具：识谱、转谱、乐理校验、记谱规范校验、格式互转、渲染出图。
 
@@ -37,7 +37,7 @@ npm install xiange-mcp
 xiange-mcp 包装 Python 端既有工具，需要以下环境：
 
 - Python 3.11+（建议独立环境，如 `python3 -m venv xiange-env`）
-- xiange 工具集（默认路径 `~/xiange/tools/`，clone 弦歌主仓后指向其 tools 目录；可用 `XIANG_MCP_TOOLS` 覆盖）
+- xiange 工具集（默认路径 `~/xiange/tools/`，clone 主仓后指向其 tools 目录；可用 `XIANG_MCP_TOOLS` 覆盖）
 - 可选：SMT 引擎（OMR）、Demucs + Basic Pitch / muscriptor（音频转谱）
 
 环境变量可覆盖默认路径：
@@ -100,5 +100,5 @@ xiange 工具集本身另有许可，见其 [LICENSE.md](https://github.com/Zhon
 
 ## 相关链接
 
-- 弦歌 xiange 主仓：[github.com/ZhongQuinnKing/xiange](https://github.com/ZhongQuinnKing/xiange)
+- xiange 主仓：[github.com/ZhongQuinnKing/xiange](https://github.com/ZhongQuinnKing/xiange)
 - MCP 协议：[modelcontextprotocol.io](https://modelcontextprotocol.io)

@@ -1,7 +1,7 @@
 {
   "name": "xiange-mcp",
   "version": "0.1.0",
-  "description": "弦歌 xiange — 音乐能力 MCP Server：识谱、转谱、乐理校验、记谱规范校验、格式互转、渲染出图",
+  "description": "Xiange MCP Server：识谱、转谱、乐理校验、记谱规范校验、格式互转、渲染出图",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -38,8 +38,7 @@
     "music-theory",
     "notation",
     "sheet-music",
-    "xiange",
-    "弦歌"
+    "xiange"
   ],
   "author": "ZhongQuinnKing",
   "license": "MIT",
