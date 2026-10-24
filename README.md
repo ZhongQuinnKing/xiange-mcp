@@ -1,5 +1,11 @@
 # xiange-mcp
 
+<div align="center">
+
+[![ZhongQuinnKing/xiange-mcp MCP server](https://glama.ai/mcp/servers/ZhongQuinnKing/xiange-mcp/badges/score.svg)](https://glama.ai/mcp/servers/ZhongQuinnKing/xiange-mcp)
+
+</div>
+
 Xiange — 音乐能力 MCP Server
 
 给 AI 用的音乐能力包，通过 MCP 协议暴露六项核心工具：识谱、转谱、乐理校验、记谱规范校验、格式互转、渲染出图。
